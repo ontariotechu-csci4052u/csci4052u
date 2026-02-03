@@ -1,0 +1,19 @@
+[project]
+name = "csci4052u"
+version = "0.1.0"
+description = "Course helper library for machine learning pipelines and model construction"
+readme = "README.md"
+authors = [
+    { name = "Ken Pu", email = "kenpu@pop-os.home" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "lightning>=2.6.1",
+    "tensorboard>=2.20.0",
+    "torch>=2.10.0",
+    "torchvision>=0.25.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.28,<0.10.0"]
+build-backend = "uv_build"
