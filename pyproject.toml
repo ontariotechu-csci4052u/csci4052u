@@ -8,10 +8,10 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "lightning>=2.6.1",
-    "tensorboard>=2.20.0",
-    "torch>=2.10.0",
-    "torchvision>=0.25.0",
+    "lightning",
+    "tensorboard",
+    "torch",
+    "torchvision",
 ]
 
 [build-system]
