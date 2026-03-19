@@ -11,7 +11,8 @@ class FashionMNISTDataModule(L.LightningDataModule):
                  num_workers=2,
                  shape=None,
                  fraction: float = 1.0,
-                 scale_to: tuple[float, float]|None = None):
+                 scale_to: tuple[float, float]|None = None,
+                 binary_threshold:float|None = None):
         super().__init__()
         self.data_dir = data_dir
         self.batch_size = batch_size
@@ -33,6 +34,11 @@ class FashionMNISTDataModule(L.LightningDataModule):
         if scale_to is not None:
             lower, upper = scale_to
             t.append(transforms.Lambda(lambda x, lo=lower, hi=upper: lo + (x + 1) * (hi - lo) / 2))
+
+        # if binary_threshold is set, then convert image
+        # to {0, 1} based on threshold.
+        if binary_threshold is not None:
+            t.append(transforms.Lambda(lambda x, thr=binary_threshold: (x > thr).float()))
 
         self.transform = transforms.Compose(t)
 
