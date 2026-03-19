@@ -5,7 +5,13 @@ from torchvision.datasets import FashionMNIST
 
 
 class FashionMNISTDataModule(L.LightningDataModule):
-    def __init__(self, data_dir="./data", batch_size=64, num_workers=2, shape=None, fraction: float = 1.0):
+    def __init__(self, 
+                 data_dir="./data",
+                 batch_size=64,
+                 num_workers=2,
+                 shape=None,
+                 fraction: float = 1.0,
+                 scale_to: tuple[float, float]|None = None):
         super().__init__()
         self.data_dir = data_dir
         self.batch_size = batch_size
@@ -21,6 +27,13 @@ class FashionMNISTDataModule(L.LightningDataModule):
             t.append(transforms.Normalize((0.5,) * channels, (0.5,) * channels))
         else:
             t.append(transforms.Normalize((0.5,), (0.5,)))
+
+        # if scale_to is set, then rescale the image to [lower, upper] where
+        # lower, upper = scale_to
+        if scale_to is not None:
+            lower, upper = scale_to
+            t.append(transforms.Lambda(lambda x, lo=lower, hi=upper: lo + (x + 1) * (hi - lo) / 2))
+
         self.transform = transforms.Compose(t)
 
     def prepare_data(self):
